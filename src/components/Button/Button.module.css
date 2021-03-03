@@ -1,0 +1,30 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 1em 1em 0;
+  background-color: #fff;
+  border: 1px solid grey;
+  cursor: pointer;
+}
+
+.btn:first-of-type {
+  background-color: rgb(200, 200, 200);
+}
+
+.btn:nth-of-type(4n) {
+  margin-right: 0;
+  border: 1px solid rgb(253, 149, 13);
+}
+
+.btn:last-of-type {
+  width: 136px;
+  margin-right: 0;
+  background-color: rgb(253, 149, 13);
+}
+
+.btn:nth-last-of-type(-n + 3) {
+  margin-bottom: 0;
+}

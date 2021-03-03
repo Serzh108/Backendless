@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50vw;
+  width: 360px;
+  padding: 1.5em;
+  background-color: lightblue;
+  border: 1px solid grey;
+}
+
+.screen {
+  width: 296px;
+  height: 80px;
+  margin-bottom: 1em;
+  padding: 1em;
+  text-align: right;
+  background-color: #fff;
+  border: 1px solid grey;
+}
+
+.firstLine {
+  font-size: 1.5em;
+}
+
+.secondLine {
+  color: lightgray;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 296px;
+  height: 366px;
+  /* padding: 1em; */
+  /* border: 1px solid blue; */
+}
