@@ -44,7 +44,7 @@ function Device() {
       setIsResult(false);
 
       switch (currentSymbol) {
-        case '.':
+        // case '.':
         case '%':
           return;
 
