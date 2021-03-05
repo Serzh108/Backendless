@@ -19,16 +19,9 @@ function Device() {
     } else {
       return;
     }
-    // console.log('key pressed :', currentKey, ' ', e);
   };
 
   useEffect(() => {
-    // const keyboardHandler = e => {
-    //   const currentKey = e.key;
-    //   console.log('key pressed :', currentKey);
-    //   symbolHandler(currentKey);
-    // };
-    // 'keypress' 'keydown'
     document.addEventListener('keypress', keyboardHandler);
     return () => {
       document.removeEventListener('keypress', keyboardHandler);
@@ -37,7 +30,6 @@ function Device() {
 
   const clickHandler = e => {
     const currentSymbol = e.currentTarget.id;
-    console.log('click:', currentSymbol);
     symbolHandler(currentSymbol);
   };
 
@@ -49,28 +41,8 @@ function Device() {
         setIsResult(false);
         return;
       }
-      console.log('currentSymbol is not a number!', currentSymbol);
-      console.log(
-        `state = ${state} state.length = ${state.length}
-           state.length - 1 = ${state[state.length - 1]}`,
-      );
       setIsResult(false);
-      // ------------- ??? ----------
-      // const ress = calc(state);
 
-      let ress;
-      try {
-        ress = calc(state);
-      } catch (error) {
-        alert(error.message);
-      }
-
-      console.log('!!! NEW result = ', ress);
-      // setState(initialState);
-      // setResult(result);
-      // setState([`${ress}`]);
-      ress === undefined ? setResult('ERROR') : setResult(ress);
-      // ------------- /??? ----------
       switch (currentSymbol) {
         case '.':
         case '%':
@@ -83,7 +55,6 @@ function Device() {
           return;
 
         case 'AC':
-          console.log('"AC" pressed!!');
           setState(initialState);
           setResult(initialResult);
           setIsResult(false);
@@ -91,17 +62,15 @@ function Device() {
 
         case '=':
           if (isNaN(state[state.length - 1])) return;
-          console.log('" =" pressed!!');
+
           let res;
           try {
             res = calc(state);
           } catch (error) {
             alert(error.message);
           }
-          // let res = calc(state);
-          // res = res === Infinity || res === -Infinity ? 'ERROR' : res;
           res = res === undefined ? 'ERROR' : res;
-          console.log(` res after '=' : ${res}`);
+
           setState([`${res}`]);
           setResult(initialResult);
           setIsResult(true);
@@ -110,36 +79,39 @@ function Device() {
         default:
           break;
       }
+      // ------------- Calculate ----------
+      let ress;
+      try {
+        ress = calc(state);
+      } catch (error) {
+        alert(error.message);
+      }
+      ress === undefined ? setResult('ERROR') : setResult(ress);
+      // ------------- /Calculate ----------
 
-      // --- first item ---
+      // --- set first item if it is '-' ---
       if (state.length === 0 && !isResult) {
         currentSymbol === '-' && setState([currentSymbol]);
         return;
       }
-      // --- /first item ---
-      // --- first is '-' ---
+      // --- /set first item if it is '-' ---
+      // --- exit if first symbol is '-' ---
       if (state.length === 1 && state[0] === '-') {
         return;
       }
-      // --- first is '-' ---
+      // --- /exit if first symbol is '-' ---
       // --- replace last NaN symbol ---
       if (isNaN(state[state.length - 1])) {
         let newValue = [...state];
-        console.log('newValue = ', newValue);
         newValue[newValue.length - 1] = currentSymbol;
-        console.log('???? newValue = ', newValue);
         setState(newValue);
         // --- /replace last NaN symbol ---
       } else setState(prev => [...prev, currentSymbol]);
     } else {
-      console.log('currentSymbol is number', currentSymbol);
       if (isResult) {
         setIsResult(false);
         setState([`${currentSymbol}`]);
       } else {
-        // if (currentSymbol === '0') {
-        //   console.log('0!!!!!!!!');
-        // }
         setState(prev => [...prev, currentSymbol]);
       }
     }
