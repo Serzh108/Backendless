@@ -19,6 +19,17 @@ const makeOperation = (type, actionArr, digitArr) => {
   console.log(`no ${type} action!!!`);
 };
 
+const testZeroDivision = (digitArr, actionArr) => {
+  if (digitArr.includes(0)) {
+    const index_0 = digitArr.indexOf(0);
+    console.log(`AHTUNG!!!! -> 0 presents!!! at ${index_0}`);
+    if (actionArr[index_0 - 1] === '/') {
+      console.log(`ERROR!!!! -> /0 presents!!!`);
+      throw SyntaxError(`Devision by 0! (operation № ${index_0})`);
+    }
+  }
+};
+
 const calc = data => {
   console.log('calc:', data);
   const digitArr = [];
@@ -26,27 +37,30 @@ const calc = data => {
   let dataString = data.join('');
   while (dataString.length > 0) {
     const parsedDigit = Number.parseInt(dataString, 10);
+    console.log('parsedDigit = ', parsedDigit);
     // const parsedDigit = Number.parseFloat(dataString);
     // if (parsedDigit) digitArr.push(parsedDigit);  ?? надо ли проверку
     digitArr.push(parsedDigit);
-    const numberToString = parsedDigit.toString();
-    const numberLength = numberToString.length;
-    console.log('operation :', dataString[numberLength]);
-    if (dataString[numberLength] === '-') {
+    const digitToString =
+      parsedDigit === -0 ? parsedDigit.toString() + 1 : parsedDigit.toString();
+    const digitLength = digitToString.length;
+    console.log('operation :', dataString[digitLength]);
+    if (dataString[digitLength] === '-') {
       actionArr.push('+');
-      dataString = dataString.substring(numberLength);
+      dataString = dataString.substring(digitLength);
     } else {
-      dataString[numberLength] && actionArr.push(dataString[numberLength]);
-      dataString = dataString.substring(numberLength + 1);
+      dataString[digitLength] && actionArr.push(dataString[digitLength]);
+      dataString = dataString.substring(digitLength + 1);
     }
     console.log(
       'parsedDigit = ',
       parsedDigit,
-      ' numberToString = ',
-      numberToString,
-      ' numberLength = ',
-      numberLength,
+      ' digitToString = ',
+      digitToString,
+      ' digitLength = ',
+      digitLength,
     );
+    testZeroDivision(digitArr, actionArr);
   }
   console.log('digitArr = ', digitArr);
   console.log('actionArr = ', actionArr);
