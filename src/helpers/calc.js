@@ -1,15 +1,29 @@
-import { ACTIONS_TYPE, ACTIONS } from './constants/constants';
+import { ACTIONS } from './constants/constants';
 
 const makeOperation = (type, actionArr, digitArr) => {
   let multiplay = actionArr.indexOf(type);
-  while (multiplay >= 0) {
-    const tempResult = ACTIONS[type](
-      digitArr[multiplay],
-      digitArr[multiplay + 1],
-    );
-    digitArr.splice(multiplay, 2, tempResult);
-    actionArr.splice(multiplay, 1);
-    multiplay = actionArr.indexOf(type);
+  const tempResult = ACTIONS[type].action(
+    digitArr[multiplay],
+    digitArr[multiplay + 1],
+  );
+  digitArr.splice(multiplay, 2, tempResult);
+  actionArr.splice(multiplay, 1);
+};
+
+const newProcessing = (actionArr, digitArr) => {
+  while (actionArr.length > 0) {
+    const firstOperation = actionArr[0];
+    let nextOperation = actionArr[1];
+    if (!nextOperation) {
+      nextOperation = firstOperation;
+    }
+
+    const currentOperation =
+      ACTIONS[firstOperation].priority >= ACTIONS[nextOperation].priority
+        ? firstOperation
+        : nextOperation;
+
+    makeOperation(currentOperation, actionArr, digitArr);
   }
 };
 
@@ -52,7 +66,7 @@ const calc = data => {
     testZeroDivision(digitArr, actionArr);
   }
 
-  ACTIONS_TYPE.forEach(type => makeOperation(type, actionArr, digitArr));
+  newProcessing(actionArr, digitArr);
 
   return digitArr[0];
 };

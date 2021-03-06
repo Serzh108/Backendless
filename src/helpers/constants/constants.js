@@ -20,19 +20,16 @@ const KEY_ARRAY = [
   '=',
 ];
 
-// const ACTIONS_TYPE = ['*', '/', '+', '-'];
-const ACTIONS_TYPE = ['*', '/', '+'];
-
 const multiplayAction = (a, b) => a * b;
 const divisionAction = (a, b) => a / b;
 const additionAction = (a, b) => a + b;
-// const subtractionAction = (a, b) => a - b;
+const subtractionAction = (a, b) => a - b;
 
 const ACTIONS = {
-  '*': multiplayAction,
-  '/': divisionAction,
-  '+': additionAction,
-  // '-': subtractionAction,
+  '*': { action: multiplayAction, priority: 2 },
+  '/': { action: divisionAction, priority: 2 },
+  '+': { action: additionAction, priority: 1 },
+  '-': { action: subtractionAction, priority: 1 },
 };
 
-export { KEY_ARRAY, ACTIONS_TYPE, ACTIONS };
+export { KEY_ARRAY, ACTIONS };
